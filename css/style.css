@@ -1,0 +1,14 @@
+html,
+body {
+    height: 100%;
+    width: 100%;
+    font-family: 'Alegreya', serif;
+}
+
+body {
+    background: url('../img/bg.jpg');
+    background-size: cover;
+    background-position: center;
+    width: 100%;
+    color: #fff;
+}
