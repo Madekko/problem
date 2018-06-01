@@ -7,27 +7,35 @@ app.controller('indexController', ['$scope', '$window', '$http', '$compile', fun
         $http.get("http://localhost:8080/api/devices/" + id).then(function (response) {
             for (var i = 0; i < response.data.length; i++) {
                 $scope.measurements[$scope.measurements.length] = response.data[i];
-            }
-            for (var i = 0; i < $scope.measurements.length; i++) {
                 $scope.measurements[i].timestamp = new Date($scope.measurements[i].timestamp).toISOString().slice(0, 19).replace('T', ' ');
             }
         }, function () {
-            $window.alert("Wystąpił błąd podczas komunikacji z bazą danych!");
+            $window.alert("Cannot access the database");
         });
         setTimeout(function () {
             $.fn.dataTable.ext.errMode = 'none';
             $('#sensors')
                 .on('error.dt', function (e, settings, techNote, message) {
-                    $window.alert("Wystąpił błąd w komunikacji z bazą danych!");
+                    $window.alert("You should clear the table first");
                 })
                 .DataTable({
                     "data": $scope.measurements,
                     "columns": [
-                        {data: "deviceId"},
-                        {data: "measurement"},
-                        {data: "unit"},
-                        {data: "timestamp"},
-                        {data: "measurementType"}
+                        {
+                            data: "deviceId"
+                        },
+                        {
+                            data: "measurement"
+                        },
+                        {
+                            data: "unit"
+                        },
+                        {
+                            data: "timestamp"
+                        },
+                        {
+                            data: "measurementType"
+                        }
                     ]
                 });
         }, 1000);
@@ -44,25 +52,33 @@ app.controller('indexController', ['$scope', '$window', '$http', '$compile', fun
         $http.get("http://localhost:8080/api/devices/" + id + "?start=" + dateStart + "&end=" + dateEnd).then(function (response) {
             for (var i = 0; i < response.data.length; i++) {
                 $scope.selectedMeasurements[$scope.selectedMeasurements.length] = response.data[i];
+                $scope.selectedMeasurements[i].timestamp = new Date($scope.selectedMeasurements[i].timestamp).toISOString().slice(0, 19).replace('T', ' ');
             }
-            // for (var i = 0; i < $scope.selectedMeasurements.length; i++) {
-            // $scope.selectedMeasurements[i].timestamp = new Date($scope.selectedMeasurements[i].timestamp).toISOString().slice(0, 19).replace('T', ' ');
-            // }
         });
         setTimeout(function () {
             $.fn.dataTable.ext.errMode = 'none';
             $('#sensors')
                 .on('error.dt', function (e, settings, techNote, message) {
-                    $window.alert("Wystąpił błąd w komunikacji z bazą danych!");
+                    $window.alert("Cannot access the database!");
                 })
                 .DataTable({
                     "data": $scope.selectedMeasurements,
                     "columns": [
-                        {data: "deviceId"},
-                        {data: "measurement"},
-                        {data: "unit"},
-                        {data: "timestamp"},
-                        {data: "measurementType"}
+                        {
+                            data: "deviceId"
+                        },
+                        {
+                            data: "measurement"
+                        },
+                        {
+                            data: "unit"
+                        },
+                        {
+                            data: "timestamp"
+                        },
+                        {
+                            data: "measurementType"
+                        }
                     ]
                 });
         }, 1000);
@@ -78,23 +94,35 @@ app.controller('indexController', ['$scope', '$window', '$http', '$compile', fun
                 $scope.devices[i].descriptionKey = $scope.devices[i].descriptionKey.replace('property.', '').replace('.', ' ').replace('.', ' ');
             }
         }, function () {
-            $window.alert("Wystąpił błąd podczas komunikacji z bazą danych!");
+            $window.alert("Can not access to database");
         });
         setTimeout(function () {
             $.fn.dataTable.ext.errMode = 'none';
             $('#devices')
                 .on('error.dt', function (e, settings, techNote, message) {
-                    $window.alert("Wystąpił błąd w komunikacji z bazą danych!");
+                    $window.alert("Cannot access the database");
                 })
                 .DataTable({
                     "data": $scope.devices,
                     "columns": [
-                        {data: "id"},
-                        {data: "name"},
-                        {data: "measurementType"},
-                        {data: "unit"},
-                        {data: "descriptionKey"},
-                        {data: "id"},
+                        {
+                            data: "id"
+                        },
+                        {
+                            data: "name"
+                        },
+                        {
+                            data: "measurementType"
+                        },
+                        {
+                            data: "unit"
+                        },
+                        {
+                            data: "descriptionKey"
+                        },
+                        {
+                            data: "id"
+                        },
                     ],
                     "columnDefs": [{
                         "targets": 5,
@@ -102,7 +130,6 @@ app.controller('indexController', ['$scope', '$window', '$http', '$compile', fun
                         "orderable": false,
                         "className": "text-center",
                         "render": function (data, type, row, meta) {
-                            var t = "temperatureMeasurement";
                             var o = '<a href="deviceData.html?i=' + data + '" class="btn btn-info" role="button">Show data</a>';
                             return o;
                         }
