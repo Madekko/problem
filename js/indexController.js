@@ -4,7 +4,7 @@ app.controller('indexController', ['$scope', '$window', '$http', '$compile', fun
     $scope.createSensorView = function () {
         var url = $window.location.href;
         var id = /i=([^&]+)/.exec(url)[1];
-        $http.get("http://localhost:8080/api/devices/" + id + "/measurements").then(function (response) {
+        $http.get("https://problem-production.herokuapp.com/api/devices/" + id + "/measurements").then(function (response) {
             for (var i = 0; i < response.data.length; i++) {
                 $scope.measurements[$scope.measurements.length] = response.data[i];
                 $scope.measurements[i].timestamp = new Date($scope.measurements[i].timestamp).toISOString().slice(0, 19).replace('T', ' ');
@@ -41,7 +41,7 @@ app.controller('indexController', ['$scope', '$window', '$http', '$compile', fun
                         }
                     ]
                 });
-        }, 1000);
+        }, 3000);
     }
     $scope.selectedMeasurements = [];
     $scope.searchSensorData = function () {
@@ -52,7 +52,7 @@ app.controller('indexController', ['$scope', '$window', '$http', '$compile', fun
         var dateEnd = new Date(dateTo.getTime() - dateTo.getTimezoneOffset() * 60000).toISOString()
         var url = $window.location.href;
         var id = /i=([^&]+)/.exec(url)[1];
-        $http.get("http://localhost:8080/api/devices/" + id + "/measurements" + "?start=" + dateStart + "&end=" + dateEnd).then(function (response) {
+        $http.get("https://problem-production.herokuapp.com/api/devices/" + id + "/measurements" + "?start=" + dateStart + "&end=" + dateEnd).then(function (response) {
             for (var i = 0; i < response.data.length; i++) {
                 $scope.selectedMeasurements[$scope.selectedMeasurements.length] = response.data[i];
                 $scope.selectedMeasurements[i].timestamp = new Date($scope.selectedMeasurements[i].timestamp).toISOString().slice(0, 19).replace('T', ' ');
@@ -84,12 +84,12 @@ app.controller('indexController', ['$scope', '$window', '$http', '$compile', fun
                         }
                     ]
                 });
-        }, 1000);
+        }, 3000);
     }
 
     $scope.devices = [];
     $scope.createDevicesView = function () {
-        $http.get("http://localhost:8080/api/devices").then(function (response) {
+        $http.get("https://problem-production.herokuapp.com/api/devices").then(function (response) {
             for (var i = 0; i < response.data.length; i++) {
                 $scope.devices[$scope.devices.length] = response.data[i];
                 $scope.devices[i].descriptionKey = $scope.devices[i].descriptionKey.replace('property.', '').replace('.', ' ').replace('.', ' ');
@@ -137,6 +137,6 @@ app.controller('indexController', ['$scope', '$window', '$http', '$compile', fun
                         }
                     }]
                 });
-        }, 1000);
+        }, 3000);
     }
 }]);
